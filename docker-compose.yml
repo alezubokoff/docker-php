@@ -1,0 +1,28 @@
+version: "3"
+services:
+  mariadb:
+    image: mariadb
+    container_name: projetos_mariadb
+    ports: 
+     - "3307:3306"
+    environment:
+    - MYSQL_DATABASE=projetos
+    - MYSQL_USER=projetos
+    - MYSQL_PASSWORD=password
+    - MYSQL_ROOT_PASSWORD=password
+  nginx:
+    image: nginx
+    ports:
+    - "82:80"
+    links:
+    - php
+    volumes:
+    - ./nginx:/etc/nginx/conf.d:ro
+    - ./src:/var/www/html:ro
+  php:
+    image: projeto
+    build: .
+    links:
+    - mariadb
+    volumes:
+    - ./src:/var/www/html:z
