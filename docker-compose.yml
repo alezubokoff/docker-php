@@ -12,6 +12,7 @@ services:
     - MYSQL_ROOT_PASSWORD=password
   nginx:
     image: nginx
+    container_name: projetos_nginx
     ports:
     - "82:80"
     links:
@@ -20,7 +21,7 @@ services:
     - ./nginx:/etc/nginx/conf.d:ro
     - ./src:/var/www/html:ro
   php:
-    image: projeto
+    container_name: projetos_php
     build: .
     links:
     - mariadb
