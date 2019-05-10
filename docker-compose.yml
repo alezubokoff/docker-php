@@ -19,11 +19,11 @@ services:
     - php
     volumes:
     - ./nginx:/etc/nginx/conf.d:ro
-    - ./src:/var/www/html:ro
+    - .:/var/www/html:ro
   php:
     container_name: projetos_php
     build: .
     links:
     - mariadb
     volumes:
-    - ./src:/var/www/html:z
+    - .:/var/www/html:z
