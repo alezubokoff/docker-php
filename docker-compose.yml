@@ -14,15 +14,14 @@ services:
     ports:
       - "33600:3306"
     environment:
-      - MYSQL_DATABASE=condominio
+      - MYSQL_DATABASE=default
       - MYSQL_USER=root
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_PASSWORD=root
     volumes:
-      - ~/.docker/data/mysql:/var/lib/mysql
-      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./.docker/dbdata:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", 'mysql -uroot --database=condominio --password=root --execute="SELECT count(table_name) > 0 FROM information_schema.tables;" --skip-column-names -B']
+      test: ["CMD-SHELL", 'mysql -uroot --database=default --password=root --execute="SELECT count(table_name) > 0 FROM information_schema.tables;" --skip-column-names -B']
       interval: 10s
       timeout: 10s
       retries: 4
