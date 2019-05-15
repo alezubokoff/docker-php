@@ -1,8 +1,13 @@
 version: "3"
 services:
+
   mariadb:
     image: mariadb
     container_name: projetos_mariadb
+    networks:
+      - app-network
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
     ports: 
      - "3307:3306"
     environment:
@@ -10,20 +15,30 @@ services:
     - MYSQL_USER=projetos
     - MYSQL_PASSWORD=password
     - MYSQL_ROOT_PASSWORD=password
+
   nginx:
     image: nginx
     container_name: projetos_nginx
+    networks:
+      - app-network
     ports:
     - "82:80"
     links:
     - php
     volumes:
     - ./nginx:/etc/nginx/conf.d:ro
-    - .:/var/www/html:ro
+    - ./app:/var/www/html:ro
+
   php:
     container_name: projetos_php
+    networks:
+      - app-network
     build: .
     links:
     - mariadb
     volumes:
-    - .:/var/www/html:z
+    - ./app:/var/www/html:z
+
+networks:
+  app-network:
+    driver: bridge
