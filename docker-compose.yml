@@ -28,6 +28,18 @@ services:
     networks:
       - app-net
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: acl-myadmin
+    ports:
+      - 8001:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_POST=3306
+    networks:
+      - acl-net
+
   nginx:
     image: nginx
     container_name: nginx
